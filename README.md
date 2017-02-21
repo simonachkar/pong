@@ -1,2 +1,9 @@
 # pingpong
-JS and HTML code for a simple WebGL game: the ping pong game.
+The Ping Pong Game
+------------------
+
+This is a really modest experiment implement a version of the classic Pong game in an HTML <canvas> using JavaScript.
+
+Notes
+-----
+No support for mobile devices (need to handle touch events instead of key input).
