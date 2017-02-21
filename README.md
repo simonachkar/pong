@@ -1,7 +1,4 @@
 # pingpong
-The Ping Pong Game
-------------------
-
 This is a really modest experiment implement a version of the classic Pong game in an HTML <canvas> using JavaScript.
 
 Notes
