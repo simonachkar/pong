@@ -145,7 +145,16 @@ var update = function(modifier) {
 // Draw Everything =================================================================
 var draw = function() {
   if (bgReady) {
-    ctx.drawImage(bgImage, 0, 0, bgImage.width, bgImage.height, // source rectangle 0, 0, canvas.width, canvas.height
+    ctx.drawImage(
+      bgImage,
+      0,
+      0,
+      bgImage.width,
+      bgImage.height, // source rectangle
+      0,
+      0,
+      canvas.width,
+      canvas.height
     ); // destination rectangle
   }
 
@@ -163,7 +172,11 @@ var draw = function() {
   ctx.font = "30px ARIAL";
   ctx.textAlign = "left";
   ctx.textBaseline = "top";
-  ctx.fillText("AI: " + ai_paddle.score + "\t\tPlayer: " + player_paddle.score, 20, 10);
+  ctx.fillText(
+    "AI: " + ai_paddle.score + "\t\tPlayer: " + player_paddle.score,
+    20,
+    10
+  );
 };
 
 // The main game loop =============================================================
