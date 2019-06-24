@@ -48,14 +48,14 @@ ballImage.onload = function() {
 // === Defining the Game Objects ===
 
 var player_paddle = {
-  speed: 5, //movement in pixels per second
+  speed: 4, // movement in pixels per second
   score: 0,
   x: 785,
   y: 100,
 }
 
 var ai_paddle = {
-  speed: 5, //this is the AI trick
+  speed: 3.8, // this is the AI trick
   score: 0,
   x: 10,
   y: 100,
@@ -64,29 +64,21 @@ var ai_paddle = {
 var ball = {
   x: canvas.width / 2,
   y: canvas.height / 2,
-  speed_X: 3,
-  speed_Y: 3,
+  speed_X: 4,
+  speed_Y: 4,
 }
 
 // === Player's Keyboard Input (Handle keyboard controls) ===
 
-var keysDown = {}
+var playerInput = {}
 
-addEventListener(
-  'keydown',
-  function(e) {
-    keysDown[e.keyCode] = true
-  },
-  false
-)
+addEventListener('keydown', function(e) {
+  playerInput[e.keyCode] = true
+})
 
-addEventListener(
-  'keyup',
-  function(e) {
-    delete keysDown[e.keyCode]
-  },
-  false
-)
+addEventListener('keyup', function(e) {
+  delete playerInput[e.keyCode]
+})
 
 // === Reset the round when any of the two paddles score ===
 
@@ -119,12 +111,12 @@ var update = function() {
   }
 
   //player_paddle movement -------------
-  if (38 in keysDown) {
+  if (38 in playerInput) {
     // Player holding UP
     if (player_paddle.y > 0) player_paddle.y -= player_paddle.speed
   }
 
-  if (40 in keysDown) {
+  if (40 in playerInput) {
     // Player holding DOWN
     if (player_paddle.y < canvas.height - paddleImage.height)
       player_paddle.y += player_paddle.speed
