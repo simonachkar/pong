@@ -1,4 +1,4 @@
-// === Request Animation Frame ===
+// ==== Request Animation Frame ====
 window.requestAnimFrame = function() {
   return (
     window.requestAnimationFrame ||
@@ -12,14 +12,14 @@ window.requestAnimFrame = function() {
   )
 }
 
-// === Creating the canvas ===
+// ==== Creating the canvas ====
 var canvas = document.createElement('canvas')
 var ctx = canvas.getContext('2d')
 canvas.width = 800
 canvas.height = 500
 document.body.appendChild(canvas)
 
-// === Defining the graphics ===
+// ==== Defining the graphics ====
 
 // Background image
 var bgImage = new Image()
@@ -45,7 +45,7 @@ ballImage.onload = function() {
   ballReady = true
 }
 
-// === Defining the Game Objects ===
+// ==== Defining the Game Objects ====
 
 var player_paddle = {
   speed: 4, // movement in pixels per second
@@ -68,7 +68,7 @@ var ball = {
   speed_Y: 4,
 }
 
-// === Player's Keyboard Input (Handle keyboard controls) ===
+// ==== Player's Keyboard Input (Handle keyboard controls) ====
 
 var playerInput = {}
 
@@ -80,50 +80,52 @@ addEventListener('keyup', function(e) {
   delete playerInput[e.keyCode]
 })
 
-// === Reset the round when any of the two paddles score ===
+// ==== Reset the round when any of the two paddles score ====
 
 var reset = function() {
   ball.x = canvas.width / 2
   ball.y = canvas.height / 2
 }
 
-// === Update Game Objects ===
+// ==== Update Game Objects ====
 
 var update = function() {
-  //ball movement -----------------------
+  // == Ball's movement ==
+
   ball.x = ball.x + ball.speed_X
   ball.y = ball.y + ball.speed_Y
 
+  // Computer Scores
   if (ball.x >= canvas.width) {
-    //ai_paddle scored
     ai_paddle.score++
     reset()
   }
 
+  // Player Scores
   if (ball.x <= 0) {
-    //player_paddle scored
     player_paddle.score++
     reset()
   }
-
+  // Ball hit the borders
   if (ball.y >= canvas.height - ballImage.height || ball.y <= 0) {
     ball.speed_Y = -1 * ball.speed_Y
   }
 
-  //player_paddle movement -------------
+  // == Player's movement ==
+
+  // 38 is the up keycode
   if (38 in playerInput) {
-    // Player holding UP
     if (player_paddle.y > 0) player_paddle.y -= player_paddle.speed
   }
 
+  // 40 is the up keycode
   if (40 in playerInput) {
-    // Player holding DOWN
     if (player_paddle.y < canvas.height - paddleImage.height)
       player_paddle.y += player_paddle.speed
   }
 
-  //ai_paddle movement -----------------
-  //following the ball
+  // == Compuers's movement (Following the ball)==
+
   if (ai_paddle.y < ball.y) {
     if (ai_paddle.y < canvas.height - paddleImage.height)
       ai_paddle.y += ai_paddle.speed
@@ -131,7 +133,7 @@ var update = function() {
     if (ai_paddle.y > 0) ai_paddle.y -= ai_paddle.speed
   }
 
-  // collision
+  // == Collision ==
   if (
     (ball.x < player_paddle.x + paddleImage.width &&
       ball.x + ballImage.width > player_paddle.x &&
@@ -146,58 +148,44 @@ var update = function() {
   }
 }
 
-// === Draw Everything ===
+// ==== Draw Everything ====
+
 var draw = function() {
+  // Drawing the background
   if (bgReady) {
-    ctx.drawImage(
-      bgImage,
-      0,
-      0,
-      bgImage.width,
-      bgImage.height,
-      0,
-      0,
-      canvas.width,
-      canvas.height
-    )
+    ctx.drawImage(bgImage, 0, 0, bgImage.width, bgImage.height, 0, 0, canvas.width, canvas.height)
   }
 
+  // Drawing the paddles
   if (paddleReady) {
     ctx.drawImage(paddleImage, player_paddle.x, player_paddle.y)
     ctx.drawImage(paddleImage, ai_paddle.x, ai_paddle.y)
   }
 
+  // Drawing the ball
   if (ballReady) {
     ctx.drawImage(ballImage, ball.x, ball.y)
   }
 
-  // Score
+  // Drawing the scores
   ctx.fillStyle = 'white'
   ctx.font = '30px ARIAL BLACK'
   ctx.textAlign = 'center'
   ctx.textBaseline = 'top'
-  ctx.fillText(
-    'AI: ' + ai_paddle.score + '\t\tPlayer: ' + player_paddle.score,
-    390,
-    10
-  )
+  ctx.fillText('Comp: ' + ai_paddle.score + '\t\tPlayer: ' + player_paddle.score, 390, 10)
 }
 
-// === Main ===
-var main = function(then) {
-  var now = Date.now()
-  var delta = now - then
+// ==== Main ====
 
-  update(delta / 1000)
+var main = function() {
+
+  update()
   draw()
-
-  then = now
 
   // Request to do this again
   requestAnimationFrame(main)
 }
 
-// === Play Game ===
-var then = Date.now()
-reset()
-main(then)
+// ==== Play Game ====
+
+main()
