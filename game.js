@@ -23,7 +23,7 @@ document.body.appendChild(canvas)
 
 // Background image
 var bgImage = new Image()
-bgImage.src = 'images/background.png'
+bgImage.src = 'images/background.jpeg'
 var bgReady = false
 bgImage.onload = function() {
   bgReady = true
@@ -172,7 +172,7 @@ var draw = function() {
   ctx.font = '30px ARIAL BLACK'
   ctx.textAlign = 'center'
   ctx.textBaseline = 'top'
-  ctx.fillText('Comp: ' + ai_paddle.score + '\t\tPlayer: ' + player_paddle.score, 390, 10)
+  ctx.fillText(ai_paddle.score + '\t\t\t' + player_paddle.score, 400, 20)
 }
 
 // ==== Main ====
